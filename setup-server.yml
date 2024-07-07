@@ -26,12 +26,8 @@
          state: present
 
     - name: open port 80 in the firewall for nginx
-      firewalld:
-         port: 80/tcp
-         permanent: yes
-         state: enabled
-         immediate: yes
-
+      shell: firewall-cmd --zone=public --add-port=80/tcp --permanent
+        
     - name: reload firewall
-      firewalld:
-         state: reloaded
+      shell: firewall-cmd --reload
+         

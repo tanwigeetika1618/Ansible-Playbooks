@@ -4,10 +4,11 @@
   remote_user: root 
 
   tasks:
-    - name: copy resource directory
-      copy: 
-        src: Slack_clone  
-        dest: /var/www
+    - name: clone git repository
+      git: 
+        repo: "https://github.com/tanwigeetika1618/Slack_clone.git"
+        dest: /var/www/Slack_clone
+        update: yes
 
     - name: copy nginx conf file
       copy:

@@ -1,0 +1,37 @@
+---
+- name: install nginx on servera
+  hosts: servers
+  remote_user: root
+
+  tasks: 
+    - name: check if nginx is installed
+      command: rpm -q nginx
+      register: is_nginx_installed
+
+    - name: install nginx
+      dnf: 
+         name: nginx
+         state: latest
+      when: is_nginx_installed.rc != 0
+
+    - name: start nginx service
+      service: 
+         name: nginx
+         state: started
+         enabled: yes
+      
+    - name: install git
+      dnf:
+         name: git
+         state: present
+
+    - name: open port 80 in the firewall for nginx
+      firewalld:
+         port: 80/tcp
+         permanent: yes
+         state: enabled
+         immediate: yes
+
+    - name: reload firewall
+      firewalld:
+         state: reloaded

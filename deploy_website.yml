@@ -1,0 +1,24 @@
+---
+- name: deploy static website
+  hosts: servers
+  remote_user: root 
+
+  tasks:
+    - name: clone git repository
+      git: 
+        repo: "https://github.com/tanwigeetika1618/Slack_clone.git"
+        dest: /var/www/Slack_clone
+        update: yes
+
+    - name: copy nginx conf file
+      copy:
+        src: slack.conf
+        dest: /etc/nginx/conf.d/
+
+      notify: reload ngnix
+
+  handlers: 
+    - name: reload ngnix
+      systemd:
+        name: nginx
+        state: reloaded

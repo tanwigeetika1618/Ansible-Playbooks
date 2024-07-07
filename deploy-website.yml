@@ -1,0 +1,23 @@
+---
+- name: deploy static website
+  hosts: servers
+  remote_user: root 
+
+  tasks:
+    - name: copy resource directory
+      copy: 
+        src: Slack_clone  
+        dest: /var/www
+
+    - name: copy nginx conf file
+      copy:
+        src: slack.conf
+        dest: /etc/nginx/conf.d/
+
+      notify: reload ngnix
+
+  handlers: 
+    - name: reload ngnix
+      systemd:
+        name: nginx
+        state: reloaded

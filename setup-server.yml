@@ -4,16 +4,20 @@
   remote_user: root
 
   tasks: 
+    - name: Gather the package facts
+      ansible.builtin.package_facts:
+        manager: rpm
+
     - name: check if nginx is installed
-      command: rpm -q nginx
-      register: is_nginx_installed
-      ignore_errors: yes
+      ansible.builtin.debug:
+        msg: "nginx is already installed!"
+      when: "'nginx' in ansible_facts.packages"
 
     - name: install nginx
       dnf: 
          name: nginx
          state: latest
-      when: is_nginx_installed.rc != 0
+      when: "'nginx' in ansible_facts.packages"
 
     - name: start nginx service
       service: 

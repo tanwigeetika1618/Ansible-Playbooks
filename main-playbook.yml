@@ -1,12 +1,5 @@
 ---
-- name: setup server and deploy the website
-  hosts: servers
-  remote_user: root
+- import_playbook: setup-server.yml
+- import_playbook: deploy-website.yml
 
-  tasks: 
-    - name: run playbook setup-server
-      include_playbook: setup-server.yml
-    
-    - name: run playbook deploy-website
-      include_playbook: deploy-website.yml
 

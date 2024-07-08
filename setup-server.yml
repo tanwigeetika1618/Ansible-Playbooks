@@ -17,7 +17,7 @@
       dnf: 
          name: nginx
          state: latest
-      when: "'nginx' in ansible_facts.packages"
+      when: "'nginx' not in ansible_facts.packages"
 
     - name: start nginx service
       service: 

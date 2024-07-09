@@ -18,21 +18,27 @@
          name: nginx
          state: latest
       when: "'nginx' not in ansible_facts.packages"
-
-    - name: start nginx service
-      service: 
-         name: nginx
-         state: started
-         enabled: yes
-      
+      notify: 
+        - start nginx service
+        - open port 80 in the firewall for nginx
+        - reload firewall
+ 
     - name: install git
       dnf:
          name: git
          state: present
 
+  handlers: 
+    - name: start nginx service
+      service: 
+         name: nginx
+         state: started
+         enabled: yes
+    
     - name: open port 80 in the firewall for nginx
       shell: firewall-cmd --zone=public --add-port=80/tcp --permanent
         
     - name: reload firewall
       shell: firewall-cmd --reload
+
          

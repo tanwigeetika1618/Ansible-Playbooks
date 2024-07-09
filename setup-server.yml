@@ -1,44 +1,51 @@
 ---
-- name: install nginx on servera
+- name: Install nginx on server
   hosts: servers
   remote_user: root
+  vars:
+    packages:
+      - name: nginx
+        when: "'nginx' not in ansible_facts.packages"
+      - name: git
+        when: "'git' not in ansible_facts.packages"
 
-  tasks: 
+  tasks:
     - name: Gather the package facts
       ansible.builtin.package_facts:
         manager: rpm
 
-    - name: check if nginx is installed
+    - name: Check if nginx is installed
       ansible.builtin.debug:
         msg: "nginx is already installed!"
       when: "'nginx' in ansible_facts.packages"
 
-    - name: install nginx
-      dnf: 
-         name: nginx
-         state: latest
-      when: "'nginx' not in ansible_facts.packages"
-      notify: 
-        - start nginx service
-        - open port 80 in the firewall for nginx
-        - reload firewall
- 
-    - name: install git
-      dnf:
-         name: git
-         state: present
+    - name: Check if git is installed
+      ansible.builtin.debug:
+        msg: "git is already installed!"
+      when: "'git' in ansible_facts.packages"
+
+    - name: Install nginx and git packages
+      package:
+        name: "{{ item.name }}"
+        state: present
+      loop: "{{ packages }}"
+      when: item.name
+      notify:
+        - Start nginx service
+        - Open port 80 in the firewall for nginx
+        - Reload firewall
 
   handlers: 
-    - name: start nginx service
+    - name: Start nginx service
       service: 
          name: nginx
          state: started
          enabled: yes
     
-    - name: open port 80 in the firewall for nginx
+    - name: Open port 80 in the firewall for nginx
       shell: firewall-cmd --zone=public --add-port=80/tcp --permanent
         
-    - name: reload firewall
+    - name: Reload firewall
       shell: firewall-cmd --reload
 
          

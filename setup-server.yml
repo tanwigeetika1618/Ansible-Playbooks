@@ -25,27 +25,25 @@
       when: "'git' in ansible_facts.packages"
 
     - name: Install nginx and git packages
-      package:
+      ansible.builtin.package:
         name: "{{ item.name }}"
         state: present
       loop: "{{ packages }}"
-      when: item.name
+      when: "'item.name' not in ansible_facts.packages"
       notify:
         - Start nginx service
         - Open port 80 in the firewall for nginx
         - Reload firewall
 
-  handlers: 
+  handlers:
     - name: Start nginx service
-      service: 
-         name: nginx
-         state: started
-         enabled: yes
-    
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
     - name: Open port 80 in the firewall for nginx
       shell: firewall-cmd --zone=public --add-port=80/tcp --permanent
-        
+
     - name: Reload firewall
       shell: firewall-cmd --reload
-
-         

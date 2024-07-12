@@ -1,24 +1,24 @@
 ---
-- name: deploy static website
+- name: Deploy static website
   hosts: servers
-  remote_user: root 
+  remote_user: root
 
   tasks:
-    - name: clone git repository
-      git: 
+    - name: Clone git repository
+      git:
         repo: "https://github.com/tanwigeetika1618/Slack_clone.git"
         dest: /var/www/Slack_clone
-        update: yes
+        update: true
 
-    - name: copy nginx conf file
-      copy:
-        src: slack.conf
-        dest: /etc/nginx/conf.d/
+    - name: Copy nginx conf file
+      ansible.builtin.template:
+        src: slack.conf.j2
+        dest: /etc/nginx/conf.d/slack.conf
 
-      notify: reload ngnix
+      notify: Reload ngnix
 
-  handlers: 
-    - name: reload ngnix
+  handlers:
+    - name: Reload ngnix
       systemd:
         name: nginx
         state: reloaded

@@ -1,0 +1,17 @@
+server_name: "servera"
+environment: "dev"
+users:
+  - name: "tanwi"
+    role: "catwomen"
+  - name: "neeraj"
+    role: "joker"
+  - name: "bhai"
+    role: "leech"
+  - name: "john"
+    role: "admin"
+  - name: "cena"
+    role: "actor"
+
+uptime: "123.456"
+cpu_cores: 8
+memory: 8192

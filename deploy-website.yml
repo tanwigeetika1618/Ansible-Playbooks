@@ -2,6 +2,8 @@
 - name: Deploy static website
   hosts: servers
   remote_user: root
+  vars_files:
+    - vars.yml
 
   tasks:
     - name: Clone git repository
@@ -10,11 +12,15 @@
         dest: /var/www/Slack_clone
         update: true
 
+    - name: Copy server jinja template in slack clone folder
+      ansible.builtin.template:
+        src: server.html.j2
+        dest: /var/www/Slack_clone/server.html
+
     - name: Copy nginx conf file
       ansible.builtin.template:
         src: slack.conf.j2
         dest: /etc/nginx/conf.d/slack.conf
-
       notify: Reload ngnix
 
   handlers:

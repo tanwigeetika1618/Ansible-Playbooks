@@ -1,17 +1,17 @@
 server_name: "servera"
-environment: "dev"
+environment_name: "dev"
 users:
   - name: "tanwi"
-    role: "catwomen"
-  - name: "neeraj"
-    role: "joker"
-  - name: "bhai"
-    role: "leech"
-  - name: "john"
     role: "admin"
-  - name: "cena"
-    role: "actor"
+  - name: "user1"
+    role: "user"
+  - name: "user2"
+    role: "user"
+  - name: "user3"
+    role: "user"
+  - name: "user4"
+    role: "user"
 
-uptime: "123.456"
+uptime: "120.456"
 cpu_cores: 8
 memory: 8192

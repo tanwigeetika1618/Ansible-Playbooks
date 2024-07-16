@@ -48,8 +48,10 @@
       <h1 class="text-center">Server Report <i class="fas fa-server"></i></h1>
 
       <div class="info">
-        <p><strong>Server Name:</strong> {{ server_name }}</p>
-        <p><strong>Environment:</strong> {{ environment }}</p>
+        <p><strong>Server Name:</strong> {{ ansible_hostname }}</p>
+        <p><strong>Server IPV4:</strong> {{ ansible_default_ipv4.address }}</p>
+        <p><strong>Server IPV6:</strong> {{ ansible_default_ipv6.address }}</p>
+        <p><strong>Environment:</strong> {{ environment_name }}</p>
       </div>
 
       <div class="users">
@@ -73,14 +75,14 @@
       </div>
 
       <div class="conditional">
-        {% if environment == 'production' %}
+        {% if environment_name == 'production' %}
         <p class="alert alert-danger">
           <i class="fas fa-exclamation-triangle icon"></i>This is a production
           environment. Extra caution is required.
         </p>
         {% else %}
         <p class="alert alert-info">
-          <i class="fas fa-info-circle icon"></i>This is a {{ environment }}
+          <i class="fas fa-info-circle icon"></i>This is a {{ environment_name }}
           environment.
         </p>
         {% endif %}
@@ -98,11 +100,11 @@
         <table class="table table-bordered">
           <tr>
             <th>CPU Cores</th>
-            <td>{{ cpu_cores }}</td>
+            <td>{{ ansible_processor_cores }}</td>
           </tr>
           <tr>
             <th>Memory</th>
-            <td>{{ memory }} MB</td>
+            <td>{{ ansible_memory_mb }} MB</td>
           </tr>
         </table>
       </div>

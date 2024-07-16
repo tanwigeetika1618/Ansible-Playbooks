@@ -50,7 +50,7 @@
       <div class="info">
         <p><strong>Server Name:</strong> {{ ansible_hostname }}</p>
         <p><strong>Server IPV4:</strong> {{ ansible_default_ipv4.address }}</p>
-        <p><strong>Server IPV6:</strong> {{ ansible_default_ipv6.address }}</p>
+        <p><strong>Server Domain:</strong> {{ ansible_domain }}</p>
         <p><strong>Environment:</strong> {{ environment_name }}</p>
       </div>
 
@@ -103,8 +103,20 @@
             <td>{{ ansible_processor_cores }}</td>
           </tr>
           <tr>
+            <th>Physical Cores</th>
+            <td>{{ ansible_processor_count }}</td>
+          </tr>
+          <tr>
             <th>Memory</th>
             <td>{{ ansible_memory_mb }} MB</td>
+          </tr>
+          <tr>
+            <th>Architecture</th>
+            <td>{{ ansible_architure }} MB</td>
+          </tr>
+          <tr>
+            <th>Processor List</th>
+            <td>{{ ansible_processor }} MB</td>
           </tr>
         </table>
       </div>

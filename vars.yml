@@ -1,4 +1,3 @@
-server_name: "servera"
 environment_name: "dev"
 users:
   - name: "tanwi"
@@ -13,5 +12,3 @@ users:
     role: "user"
 
 uptime: "120.456"
-cpu_cores: 8
-memory: 8192
